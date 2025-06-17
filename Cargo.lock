@@ -3,15 +3,6 @@
 version = 4
 
 [[package]]
-name = "AxumYouTube"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "axum",
- "tokio",
-]
-
-[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -90,6 +81,15 @@ dependencies = [
  "tower-layer",
  "tower-service",
  "tracing",
+]
+
+[[package]]
+name = "axum_youtube_code_along"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "tokio",
 ]
 
 [[package]]
