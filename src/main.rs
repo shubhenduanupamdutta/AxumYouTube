@@ -1,11 +1,18 @@
 use std::net::SocketAddr;
 
 use axum::{
+    extract::Query,
     response::{Html, IntoResponse},
     routing::get,
     Router,
 };
 use axum_youtube_code_along::error::MainError;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+struct HelloParams {
+    name: Option<String>,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), MainError> {
@@ -24,8 +31,9 @@ async fn main() -> Result<(), MainError> {
     Ok(())
 }
 
-async fn hello_handler() -> impl IntoResponse {
-    println!("->> {:<12} - hello_handler", "HANDLER");
+async fn hello_handler(Query(q_params): Query<HelloParams>) -> impl IntoResponse {
+    println!("->> {:<12} - hello_handler - {q_params:?}", "HANDLER");
 
-    Html("Hello <strong>World!!!</strong>")
+    let name = q_params.name.as_deref().unwrap_or("World!!!");
+    Html(format!("Hello <strong>{name}</strong>"))
 }
