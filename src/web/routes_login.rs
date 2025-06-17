@@ -1,8 +1,9 @@
 use axum::{routing::post, Json, Router};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
+use tower_cookies::{Cookie, Cookies};
 
-use crate::{ApiError, Result};
+use crate::{web::AUTH_TOKEN, ApiError, Result};
 
 #[derive(Debug, Deserialize, Serialize)]
 struct LoginPayload {
@@ -10,7 +11,7 @@ struct LoginPayload {
     password: String,
 }
 
-async fn api_login(payload: Json<LoginPayload>) -> Result<Json<Value>> {
+async fn api_login(cookies: Cookies, payload: Json<LoginPayload>) -> Result<Json<Value>> {
     println!("->> {:<12} - api_login", "HANDLER");
 
     // TODO: Real db logic here
@@ -20,7 +21,8 @@ async fn api_login(payload: Json<LoginPayload>) -> Result<Json<Value>> {
         ));
     }
 
-    // TODO: Set Cookie
+    // FIX_ME: Add real token generation
+    cookies.add(Cookie::new(AUTH_TOKEN, "user-1.exp.signature"));
 
     // Create the success body
     let body = Json(json!({

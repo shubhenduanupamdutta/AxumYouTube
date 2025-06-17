@@ -12,6 +12,7 @@ mod error;
 pub mod web;
 pub use error::{ApiError, Result};
 use serde::{Deserialize, Serialize};
+use tower_cookies::CookieManagerLayer;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct HelloParams {
@@ -24,6 +25,7 @@ async fn main() -> Result<()> {
         .merge(routes_hello())
         .merge(web::routes_login::routes())
         .layer(middleware::map_response(main_response_mapper))
+        .layer(CookieManagerLayer::new())
         .fallback(handler_404);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
@@ -66,7 +68,7 @@ async fn handler_404() -> impl IntoResponse {
 
 /// This will allow and empty line between two req/response cycle for easy understanding
 async fn main_response_mapper(res: Response) -> Response {
-    println!("->> {:<12} - main_respose_mapper", "RES_MAPPER");
+    println!("->> {:<12} - main_response_mapper", "RES_MAPPER");
     println!();
     res
 }
