@@ -11,7 +11,7 @@ struct LoginPayload {
 }
 
 async fn api_login(payload: Json<LoginPayload>) -> Result<Json<Value>> {
-    println!("->>{:<12} - api_login", "HANDLER");
+    println!("->> {:<12} - api_login", "HANDLER");
 
     // TODO: Real db logic here
     if payload.username != "demo1" || payload.password != "welcome" {
