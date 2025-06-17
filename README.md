@@ -30,6 +30,15 @@ cargo watch -q -c -w tests/ -x "test -q quick_dev -- --nocapture"
 -w src/ -> Watch only src/ folder
 -x run -> Execute run
 
+## Middleware Points
+
+### Points to note
+
+- #### Middleware application starts from bottom
+
+That means, if you want some middleware, like CookieMiddleware to be applied to all other middleware,
+it should be at bottom most layer.
+
 ## Sea-ORM Migration setup
 
 ### Installing Sea-ORM-CLI for managing migrations
