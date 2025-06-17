@@ -1,34 +1,13 @@
-use std::{error::Error, fmt::Display};
-
-#[derive(Debug)]
-pub struct MainError {
-    message: String,
+#[derive(Debug, thiserror::Error)]
+pub enum ApiError {
+    #[error("Details: {0}")]
+    InternalServerError(String),
 }
 
-impl MainError {
+impl ApiError {
     pub fn new(message: String) -> Self {
-        Self {
-            message: message.to_string(),
-        }
+        ApiError::InternalServerError(message)
     }
 }
 
-impl Display for MainError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Error: {}", self.message)
-    }
-}
-
-impl Error for MainError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        None
-    }
-
-    fn description(&self) -> &str {
-        &self.message
-    }
-
-    fn cause(&self) -> Option<&dyn Error> {
-        self.source()
-    }
-}
+pub type Result<T> = core::result::Result<T, ApiError>;
