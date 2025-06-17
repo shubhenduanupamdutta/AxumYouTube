@@ -2,6 +2,34 @@
 
 ---
 
+## Dynamically Watching and Recompiling on Changes to src
+
+You can use cargo watch for this
+
+- First you need to install cargo watch, it is on lifesupport so you may need to use bacon or other
+  libraries for this
+
+```bash
+cargo install cargo-watch
+```
+
+- To keep check on the server you can use
+
+```bash
+cargo watch -q -c -w src/ -x run
+```
+
+- To keep check on tests and outputs you can use
+
+```bash
+cargo watch -q -c -w tests/ -x "test -q quick_dev -- --nocapture"
+```
+
+-q -> quiet
+-c -> clear
+-w src/ -> Watch only src/ folder
+-x run -> Execute run
+
 ## Sea-ORM Migration setup
 
 ### Installing Sea-ORM-CLI for managing migrations
