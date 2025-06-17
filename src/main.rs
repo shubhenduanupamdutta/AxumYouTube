@@ -7,7 +7,9 @@ use axum::{
     routing::get,
     Router,
 };
-use axum_youtube_code_along::error::ApiError;
+mod error;
+pub mod web;
+pub use error::{ApiError, Result};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -16,8 +18,11 @@ struct HelloParams {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), ApiError> {
-    let routes_all = Router::new().merge(routes_hello()).fallback(handler_404);
+async fn main() -> Result<()> {
+    let routes_all = Router::new()
+        .merge(routes_hello())
+        .merge(web::routes_login::routes())
+        .fallback(handler_404);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
     println!("->> Listening on {addr}\n");
