@@ -6,13 +6,13 @@
     <title>404 - Page Not Found</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Space Grotesk', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -23,26 +23,26 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .stars {
             position: absolute;
             width: 100%;
             height: 100%;
             overflow: hidden;
         }
-        
+
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
             animation: twinkle 2s infinite alternate;
         }
-        
+
         @keyframes twinkle {
             0% { opacity: 0.3; }
             100% { opacity: 1; }
         }
-        
+
         .container {
             text-align: center;
             color: white;
@@ -50,7 +50,7 @@
             position: relative;
             padding: 2rem;
         }
-        
+
         .error-code {
             font-size: clamp(8rem, 20vw, 15rem);
             font-weight: 700;
@@ -64,17 +64,17 @@
             line-height: 1;
             text-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
         }
-        
+
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
-        
+
         .glitch {
             position: relative;
             display: inline-block;
         }
-        
+
         .glitch::before,
         .glitch::after {
             content: '404';
@@ -89,15 +89,15 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .glitch::before {
             animation: glitch1 2s infinite;
         }
-        
+
         .glitch::after {
             animation: glitch2 2s infinite;
         }
-        
+
         @keyframes glitch1 {
             0%, 90%, 100% {
                 transform: translate(0);
@@ -108,7 +108,7 @@
                 opacity: 0.7;
             }
         }
-        
+
         @keyframes glitch2 {
             0%, 90%, 100% {
                 transform: translate(0);
@@ -119,7 +119,7 @@
                 opacity: 0.7;
             }
         }
-        
+
         .title {
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: 600;
@@ -127,7 +127,7 @@
             opacity: 0;
             animation: fadeInUp 1s ease-out 0.5s forwards;
         }
-        
+
         .subtitle {
             font-size: clamp(1rem, 2.5vw, 1.25rem);
             font-weight: 300;
@@ -136,7 +136,7 @@
             opacity: 0;
             animation: fadeInUp 1s ease-out 0.7s forwards;
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -147,7 +147,7 @@
                 transform: translateY(0);
             }
         }
-        
+
         .cta-button {
             display: inline-block;
             padding: 1rem 2rem;
@@ -164,7 +164,7 @@
             animation: fadeInUp 1s ease-out 0.9s forwards;
             border: 2px solid transparent;
         }
-        
+
         .cta-button::before {
             content: '';
             position: absolute;
@@ -175,17 +175,17 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: left 0.5s;
         }
-        
+
         .cta-button:hover::before {
             left: 100%;
         }
-        
+
         .cta-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             border-color: rgba(255,255,255,0.3);
         }
-        
+
         .floating-shapes {
             position: absolute;
             width: 100%;
@@ -193,17 +193,17 @@
             overflow: hidden;
             z-index: 1;
         }
-        
+
         .shape {
             position: absolute;
             opacity: 0.1;
         }
-        
+
         .shape.circle {
             border-radius: 50%;
             background: linear-gradient(45deg, #ff6b6b, #4d9de0);
         }
-        
+
         .shape.triangle {
             width: 0;
             height: 0;
@@ -212,28 +212,28 @@
             border-right: 25px solid transparent;
             border-bottom: 43px solid #ffd93d;
         }
-        
+
         .shape.square {
             background: linear-gradient(45deg, #6bcf7f, #e15759);
             transform: rotate(45deg);
         }
-        
+
         @keyframes float1 {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(180deg); }
         }
-        
+
         @keyframes float2 {
             0%, 100% { transform: translateX(0) rotate(0deg); }
             50% { transform: translateX(20px) rotate(-180deg); }
         }
-        
+
         @keyframes float3 {
             0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
             33% { transform: translateY(-15px) translateX(15px) rotate(120deg); }
             66% { transform: translateY(15px) translateX(-15px) rotate(240deg); }
         }
-        
+
         .particle {
             position: absolute;
             width: 4px;
@@ -242,12 +242,12 @@
             border-radius: 50%;
             pointer-events: none;
         }
-        
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
-            
+
             .subtitle {
                 margin-bottom: 1.5rem;
             }
@@ -257,20 +257,20 @@
 <body>
     <div class="stars"></div>
     <div class="floating-shapes"></div>
-    
+
     <div class="container">
         <div class="error-code glitch">404</div>
         <h1 class="title">Oops! You've entered the void</h1>
         <p class="subtitle">The page you're looking for has drifted into cyberspace</p>
         <a href="#" class="cta-button" onclick="goHome()">Return to Earth</a>
     </div>
-    
+
     <script>
         // Create animated stars
         function createStars() {
             const starsContainer = document.querySelector('.stars');
             const starCount = 100;
-            
+
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
@@ -282,56 +282,56 @@
                 starsContainer.appendChild(star);
             }
         }
-        
+
         // Create floating shapes
         function createFloatingShapes() {
             const shapesContainer = document.querySelector('.floating-shapes');
             const shapes = ['circle', 'triangle', 'square'];
             const shapeCount = 15;
-            
+
             for (let i = 0; i < shapeCount; i++) {
                 const shape = document.createElement('div');
                 const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
                 shape.className = `shape ${shapeType}`;
-                
+
                 if (shapeType === 'circle' || shapeType === 'square') {
                     const size = Math.random() * 50 + 20;
                     shape.style.width = size + 'px';
                     shape.style.height = size + 'px';
                 }
-                
+
                 shape.style.left = Math.random() * 100 + '%';
                 shape.style.top = Math.random() * 100 + '%';
                 shape.style.animation = `float${Math.floor(Math.random() * 3) + 1} ${Math.random() * 3 + 4}s ease-in-out infinite`;
                 shape.style.animationDelay = Math.random() * 2 + 's';
-                
+
                 shapesContainer.appendChild(shape);
             }
         }
-        
+
         // Create particle trail on mouse move
         let particles = [];
-        
+
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.8) {
                 createParticle(e.clientX, e.clientY);
             }
         });
-        
+
         function createParticle(x, y) {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = x + 'px';
             particle.style.top = y + 'px';
             particle.style.animation = 'fadeOut 1s ease-out forwards';
-            
+
             document.body.appendChild(particle);
-            
+
             setTimeout(() => {
                 particle.remove();
             }, 1000);
         }
-        
+
         // Add fadeOut animation
         const style = document.createElement('style');
         style.textContent = `
@@ -347,7 +347,7 @@
             }
         `;
         document.head.appendChild(style);
-        
+
         // Go home function
         function goHome() {
             // Create explosion effect
@@ -359,17 +359,17 @@
                     );
                 }, i * 50);
             }
-            
+
             // Navigate after animation
             setTimeout(() => {
                 window.history.back() || (window.location.href = '/');
             }, 1000);
         }
-        
+
         // Initialize animations
         createStars();
         createFloatingShapes();
-        
+
         // Add loading animation
         window.addEventListener('load', () => {
             document.body.style.opacity = '0';

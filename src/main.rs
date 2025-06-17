@@ -2,13 +2,13 @@ use std::net::SocketAddr;
 
 use axum::{
     extract::{Path, Query},
+    http::StatusCode,
     response::{Html, IntoResponse},
-    routing::{get, get_service},
+    routing::get,
     Router,
 };
 use axum_youtube_code_along::error::MainError;
 use serde::{Deserialize, Serialize};
-use tower_http::services::ServeDir;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct HelloParams {
@@ -17,9 +17,7 @@ struct HelloParams {
 
 #[tokio::main]
 async fn main() -> Result<(), MainError> {
-    let routes_all = Router::new()
-        .merge(routes_hello())
-        .fallback_service(routes_static());
+    let routes_all = Router::new().merge(routes_hello()).fallback(handler_404);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
     println!("->> Listening on {addr}\n");
@@ -52,6 +50,9 @@ async fn hello_handler_2(Path(name): Path<String>) -> impl IntoResponse {
     Html(format!("Hello <strong>{name}</strong>"))
 }
 
-fn routes_static() -> Router {
-    Router::new().nest_service("/", get_service(ServeDir::new("./")))
+// Method 1: Embed the HTML directly in the binary (recommended)
+const ERROR_404_HTML: &str = include_str!("./error/404.html");
+
+async fn handler_404() -> impl IntoResponse {
+    (StatusCode::NOT_FOUND, Html(ERROR_404_HTML))
 }
