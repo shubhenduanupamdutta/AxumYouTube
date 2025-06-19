@@ -9,6 +9,7 @@ use axum::{
     Router,
 };
 mod error;
+pub mod ctx;
 pub mod model;
 pub mod web;
 pub use error::{ApiError, Result};
