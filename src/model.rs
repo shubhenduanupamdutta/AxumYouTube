@@ -6,11 +6,13 @@ use std::sync::{Arc, Mutex};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{ApiError, Result};
+use crate::{ctx::Ctx, ApiError, Result};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Ticket {
     pub id: u64,
+    // Creator User Id
+    pub c_id: u64,
     pub title: String,
 }
 
@@ -32,20 +34,24 @@ impl ModelController {
     // CRUD Implementation
 
     /// Create Implementation
-    pub async fn create_ticket(&self, ticket: TicketCreate) -> Result<Ticket> {
+    pub async fn create_ticket(&self, ctx: Ctx, ticket: TicketCreate) -> Result<Ticket> {
         let mut store = self
             .tickets_store
             .lock()
             .map_err(|_| ApiError::InternalServerError("Problem accessing store.".to_string()))?;
         let id = store.len() as u64;
-        let ticket = Ticket { id, title: ticket.title };
+        let ticket = Ticket {
+            id,
+            c_id: ctx.user_id(),
+            title: ticket.title,
+        };
         store.push(Some(ticket.clone()));
 
         Ok(ticket)
     }
 
     /// Get implementation
-    pub async fn list_ticket(&self) -> Result<Vec<Ticket>> {
+    pub async fn list_ticket(&self, _ctx: Ctx) -> Result<Vec<Ticket>> {
         let store = self.tickets_store.lock().map_err(|_| {
             ApiError::InternalServerError("Error accessing ticket store.".to_string())
         })?;
@@ -55,7 +61,7 @@ impl ModelController {
     }
 
     /// Delete implementation
-    pub async fn delete_ticket(&self, id: u64) -> Result<Ticket> {
+    pub async fn delete_ticket(&self, _ctx: Ctx, id: u64) -> Result<Ticket> {
         let mut store = self.tickets_store.lock().map_err(|_| {
             ApiError::InternalServerError("Error accessing ticket store".to_string())
         })?;

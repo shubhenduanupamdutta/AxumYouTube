@@ -8,8 +8,8 @@ use axum::{
     routing::get,
     Router,
 };
-mod error;
 pub mod ctx;
+mod error;
 pub mod model;
 pub mod web;
 pub use error::{ApiError, Result};
@@ -35,6 +35,10 @@ async fn main() -> Result<()> {
         .merge(web::routes_login::routes())
         .nest("/api", route_apis)
         .layer(middleware::map_response(main_response_mapper))
+        .layer(middleware::from_fn_with_state(
+            mc.clone(),
+            web::mw_auth::mw_ctx_resolver,
+        ))
         .layer(CookieManagerLayer::new())
         .fallback(handler_404);
 
