@@ -7,6 +7,8 @@ pub enum ApiError {
     InternalServerError(String),
     #[error("Authentication Failed. {0}")]
     Unauthorized(String),
+    #[error("Delete operation failed, Ticket wit id: {id} not found.")]
+    DeleteFailedIdNotFound { id: String },
 }
 
 impl ApiError {
@@ -19,17 +21,16 @@ impl IntoResponse for ApiError {
     fn into_response(self) -> axum::response::Response {
         println!("->> {:<12} - {self:?}", "INTO_RES");
 
-        let (status, error_message, error_code) = match self {
-            ApiError::InternalServerError(msg) => {
-                (StatusCode::INTERNAL_SERVER_ERROR, msg, "INTERNAL_ERROR")
-            },
-            ApiError::Unauthorized(msg) => (StatusCode::UNAUTHORIZED, msg, "UNAUTHORIZED"),
+        let status = match self {
+            ApiError::InternalServerError(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            ApiError::Unauthorized(_) => StatusCode::UNAUTHORIZED,
+            ApiError::DeleteFailedIdNotFound { .. } => StatusCode::NOT_FOUND,
         };
 
         let body = Json(json!(
             {"error": {
-                "code": error_code,
-                "message": error_message,
+                "code": status.to_string(),
+                "message": self.to_string(),
                 "success": false
             }}
         ));
