@@ -22,7 +22,7 @@ async fn api_login(cookies: Cookies, payload: Json<LoginPayload>) -> Result<Json
     }
 
     // FIX_ME: Add real token generation
-    cookies.add(Cookie::new(AUTH_TOKEN, "user-1.exp.signature"));
+    cookies.add(Cookie::new(AUTH_TOKEN, "DDDD-user-1.exp.signature"));
 
     // Create the success body
     let body = Json(json!({

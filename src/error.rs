@@ -1,7 +1,7 @@
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde_json::json;
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Clone, Debug, thiserror::Error)]
 pub enum ApiError {
     #[error("Details: {0}")]
     InternalServerError(String),
