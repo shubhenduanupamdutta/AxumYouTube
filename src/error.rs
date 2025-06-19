@@ -9,6 +9,8 @@ pub enum ApiError {
     Unauthorized(String),
     #[error("Delete operation failed, Ticket wit id: {id} not found.")]
     DeleteFailedIdNotFound { id: String },
+    #[error("No Auth Token in Cookie")]
+    AuthFailedNoAuthTokenInCookie,
 }
 
 impl ApiError {
@@ -25,6 +27,7 @@ impl IntoResponse for ApiError {
             ApiError::InternalServerError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             ApiError::Unauthorized(_) => StatusCode::UNAUTHORIZED,
             ApiError::DeleteFailedIdNotFound { .. } => StatusCode::NOT_FOUND,
+            ApiError::AuthFailedNoAuthTokenInCookie => StatusCode::UNAUTHORIZED,
         };
 
         let body = Json(json!(
