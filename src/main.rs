@@ -15,7 +15,7 @@ pub use error::{ApiError, Result};
 use serde::{Deserialize, Serialize};
 use tower_cookies::CookieManagerLayer;
 
-use crate::model::ModelController;
+use crate::{model::ModelController, web::mw_auth::mw_require_auth};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct HelloParams {
@@ -26,10 +26,13 @@ struct HelloParams {
 async fn main() -> Result<()> {
     let mc = ModelController::new().await?;
 
+    let route_apis =
+        web::routes_tickets::routes(mc.clone()).route_layer(middleware::from_fn(mw_require_auth));
+
     let routes_all = Router::new()
         .merge(routes_hello())
         .merge(web::routes_login::routes())
-        .nest("/api", web::routes_tickets::routes(mc.clone()))
+        .nest("/api", route_apis)
         .layer(middleware::map_response(main_response_mapper))
         .layer(CookieManagerLayer::new())
         .fallback(handler_404);
