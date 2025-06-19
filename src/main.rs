@@ -15,6 +15,8 @@ pub use error::{ApiError, Result};
 use serde::{Deserialize, Serialize};
 use tower_cookies::CookieManagerLayer;
 
+use crate::model::ModelController;
+
 #[derive(Debug, Serialize, Deserialize)]
 struct HelloParams {
     name: Option<String>,
@@ -22,9 +24,12 @@ struct HelloParams {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    let mc = ModelController::new().await?;
+
     let routes_all = Router::new()
         .merge(routes_hello())
         .merge(web::routes_login::routes())
+        .nest("/api", web::routes_tickets::routes(mc.clone()))
         .layer(middleware::map_response(main_response_mapper))
         .layer(CookieManagerLayer::new())
         .fallback(handler_404);
